@@ -12,6 +12,41 @@ import java.util.Set;
  * @date 2020/10/5
  */
 public class App {
+    /**
+     * 1 2 3
+     * 1 2 3
+     * 1 2 3
+     */
+    public static void main(String[] args) {
+        int[][] grid=new int[3][3];
+        grid[0][0]=1;
+        grid[0][1]=2;
+        grid[0][2]=3;
+        grid[1][0]=1;
+        grid[1][1]=2;
+        grid[1][2]=3;
+        grid[2][0]=1;
+        grid[2][1]=2;
+        grid[2][2]=3;
+        System.out.println(矩阵最短路径(grid));
+    }
+    public static int 矩阵最短路径(int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                } else if (i == 0) {
+                    grid[i][j] = grid[i][j] + grid[i][j - 1];
+                } else if (j == 0) {
+                    grid[i][j] = grid[i][j] + grid[i - 1][j];
+                } else {
+                    grid[i][j] = grid[i][j] + Math.min(grid[i][j - 1], grid[i - 1][j]);
+                }
+            }
+        }
+        return grid[grid.length - 1][grid[0].length - 1];
+    }
+
 
 //    public static void main(String[] args) {
 //        System.out.println(最长子串("abcdefgggg"));
