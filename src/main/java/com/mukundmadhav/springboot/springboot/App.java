@@ -1,5 +1,6 @@
 package com.mukundmadhav.springboot.springboot;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -12,24 +13,32 @@ import java.util.Set;
  * @date 2020/10/5
  */
 public class App {
+    public static void main(String[] args) {
+        Integer a=1;
+        Integer b=2;
+        Integer c=3;
+        Long d=3L;
+        System.out.println(d==(a+b));
+    }
     /**
      * 1 2 3
      * 1 2 3
      * 1 2 3
      */
-    public static void main(String[] args) {
-        int[][] grid=new int[3][3];
-        grid[0][0]=1;
-        grid[0][1]=2;
-        grid[0][2]=3;
-        grid[1][0]=1;
-        grid[1][1]=2;
-        grid[1][2]=3;
-        grid[2][0]=1;
-        grid[2][1]=2;
-        grid[2][2]=3;
-        System.out.println(矩阵最短路径(grid));
-    }
+//    public static void main(String[] args) {
+//        int[][] grid = new int[3][3];
+//        grid[0][0] = 1;
+//        grid[0][1] = 2;
+//        grid[0][2] = 3;
+//        grid[1][0] = 1;
+//        grid[1][1] = 2;
+//        grid[1][2] = 3;
+//        grid[2][0] = 1;
+//        grid[2][1] = 2;
+//        grid[2][2] = 3;
+//        System.out.println(矩阵最短路径(grid));
+//    }
+
     public static int 矩阵最短路径(int[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
