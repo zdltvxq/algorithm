@@ -1,6 +1,11 @@
 package com.mukundmadhav.springboot.springboot;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.net.InetSocketAddress;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,13 +18,31 @@ import java.util.Set;
  * @date 2020/10/5
  */
 public class App {
-    public static void main(String[] args) {
-        Integer a=1;
-        Integer b=2;
-        Integer c=3;
-        Long d=3L;
-        System.out.println(d==(a+b));
+    public void 零拷贝() {
+        try {
+            File file = new File("demo.zip");
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            FileChannel fileChannel = raf.getChannel();
+            SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("", 1234));
+// 直接使用了transferTo()进行通道间的数据传输
+            fileChannel.transferTo(0, fileChannel.size(), socketChannel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+//    public static void main(String[] args) {
+//        int a = 1;
+//        for (int i = 0; i < 16; i++) {
+//            a*=2;
+//        }
+//        System.out.println(a);
+////        Integer a=1;
+////        Integer b=2;
+////        Integer c=3;
+////        Long d=3L;
+////        System.out.println(d==(a+b));
+//    }
+
     /**
      * 1 2 3
      * 1 2 3
@@ -38,7 +61,6 @@ public class App {
 //        grid[2][2] = 3;
 //        System.out.println(矩阵最短路径(grid));
 //    }
-
     public static int 矩阵最短路径(int[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
