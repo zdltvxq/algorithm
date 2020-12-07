@@ -24,7 +24,7 @@ public class App {
     /**
      * 测试主函数
      */
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         /**
          * 创建一个二叉树
          *    0
@@ -230,9 +230,9 @@ public class App {
     }
 
 
-//    public static void main(String[] args) {
-//        System.out.println(最长子串("abcdefgggg"));
-//    }
+    public static void main2(String[] args) {
+        System.out.println(最长子串("aaabcdefgggg"));
+    }
 
     public static int 最长子串(String s) {
         if (s.length() == 0) return 0;
@@ -329,6 +329,26 @@ public class App {
         return temp;
     }
 
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+    public ListNode reverseList2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
 
 //    public static void main(String[] args) {
 //        int arr[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
