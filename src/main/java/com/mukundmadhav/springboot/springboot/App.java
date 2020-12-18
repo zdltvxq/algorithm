@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.channels.FileChannel;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,44 +19,153 @@ import java.util.Set;
  * @date 2020/10/5
  */
 public class App {
+    /**
+     * 测试主函数
+     */
+    public static void main1(String[] args) {
+        /**
+         * 创建一个二叉树
+         *    0
+         *  1   2
+         * 3 4 5 6
+         */
+        TreeNode root = new TreeNode(0);
+        root.left = new TreeNode(1);
+        root.right = new TreeNode(2);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(4);
+        root.right.left = new TreeNode(5);
+        root.right.right = new TreeNode(6);
 
-    public static void main(String[] args) {
-        Object a = null;
-        System.out.println(a);
+        // 选两个测试节点用例
+        TreeNode nodeA = root.right.left;
+        TreeNode nodeB = root.right.right;
+
+        // 查找
+        TreeNode closestCommonAncestor = findClosestCommonAncestor(root, nodeA, nodeB);
+
+        // 打印结果
+        System.out.println(null == closestCommonAncestor ? "空" : "公共祖先的值为：" + closestCommonAncestor.val);
     }
 
     /**
-     * 三数之和=0
+     * 查找二叉树里节点A和B最近的公共祖先
+     *
+     * @param root  二叉树
+     * @param nodeA 节点A
+     * @param nodeB 节点B
+     * @return 祖先
      */
-    public List<List<Integer>> threeSum(int[] nums) {// 总时间复杂度：O(n^2)
-        List<List<Integer>> ans = new ArrayList<>();
-        if (nums == null || nums.length <= 2) return ans;
-
-        Arrays.sort(nums); // O(nlogn)
-
-        for (int i = 0; i < nums.length - 2; i++) { // O(n^2)
-            if (nums[i] > 0) break; // 第一个数大于 0，后面的数都比它大，肯定不成立了
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // 去掉重复情况
-            int target = -nums[i];
-            int left = i + 1, right = nums.length - 1;
-            while (left < right) {
-                if (nums[left] + nums[right] == target) {
-                    ans.add(new ArrayList<>(Arrays.asList(nums[i], nums[left], nums[right])));
-                    // 现在要增加 left，减小 right，但是不能重复，比如: [-2, -1, -1, -1, 3, 3, 3], i = -2, left = 1, right = 6, [-2, -1, 3] 的答案加入后，需要排除重复的 -1 和 3
-                    left++;
-                    right--; // 首先无论如何先要进行加减操作
-                    while (left < right && nums[left] == nums[left - 1]) left++;
-                    while (left < right && nums[right] == nums[right + 1]) right--;
-                } else if (nums[left] + nums[right] < target) {
-                    left++;
-                } else {  // nums[left] + nums[right] > target
-                    right--;
-                }
-            }
+    public static TreeNode findClosestCommonAncestor(TreeNode root, TreeNode nodeA, TreeNode nodeB) {
+        // 按前序遍历为例
+        // 非法数据判断：如果传入的树为空，则直接返回空
+        if (root == null) {
+            return null;
         }
-        return ans;
+        // 边界数据判断：如果传入的两节点是根，则直接返回根
+        if (root == nodeA || root == nodeB) {
+            return root;
+        }
+        // 左子树查找
+        TreeNode left = findClosestCommonAncestor(root.left, nodeA, nodeB);
+        // 右子树查找
+        TreeNode right = findClosestCommonAncestor(root.right, nodeA, nodeB);
+        if (left == null) {
+            return right;
+        } else if (right == null) {
+            return left;
+        } else {
+            // 左右子树都不为空
+            return root;
+        }
     }
 
+
+    /**
+     * 二叉树定义
+     */
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public void zeroCopy() {
+        try {
+            File f = new File("txt");
+            RandomAccessFile raf = new RandomAccessFile(f, "r");
+            FileChannel fc = raf.getChannel();
+            Socket socket = new Socket("127.0.0.1", 1);
+            fc.transferTo(0, raf.length(), socket.getChannel());
+            fc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Created by chengxiao on 2016/12/17.
+     * 堆排序demo
+     */
+//    public static void main(String[] args) {
+//        System.out.println(6-4/2);
+//        int[] arr = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+//        sort(arr);
+//        System.out.println(Arrays.toString(arr));
+//    }
+    public static void sort(int[] arr) {
+        //1.构建大顶堆
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            //从第一个非叶子结点从下至上，从右至左调整结构
+            adjustHeap(arr, i, arr.length);
+        }
+        //2.调整堆结构+交换堆顶元素与末尾元素
+        for (int j = arr.length - 1; j > 0; j--) {
+            swap(arr, 0, j);//将堆顶元素与末尾元素进行交换
+            adjustHeap(arr, 0, j);//重新对堆进行调整
+        }
+
+    }
+
+    /**
+     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上）
+     *
+     * @param arr
+     * @param i
+     * @param length
+     */
+    public static void adjustHeap(int[] arr, int i, int length) {
+        int temp = arr[i];//先取出当前元素i
+        for (int k = i * 2 + 1; k < length; k = k * 2 + 1) {//从i结点的左子结点开始，也就是2i+1处开始
+            if (k + 1 < length && arr[k] < arr[k + 1]) {//如果左子结点小于右子结点，k指向右子结点
+                k++;
+            }
+            if (arr[k] > temp) {//如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
+                arr[i] = arr[k];
+                i = k;
+            } else {
+                break;
+            }
+        }
+        arr[i] = temp;//将temp值放到最终的位置
+    }
+
+    /**
+     * 交换元素
+     *
+     * @param arr
+     * @param a
+     * @param b
+     */
+    public static void swap(int[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
 
     public void 零拷贝() {
         try {
@@ -121,9 +228,9 @@ public class App {
     }
 
 
-//    public static void main(String[] args) {
-//        System.out.println(最长子串("abcdefgggg"));
-//    }
+    public static void main2(String[] args) {
+        System.out.println(最长子串("aaabcdefgggg"));
+    }
 
     public static int 最长子串(String s) {
         if (s.length() == 0) return 0;
@@ -220,6 +327,26 @@ public class App {
         return temp;
     }
 
+    public ListNode reverseList3(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+    public ListNode reverseList2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode p = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return p;
+    }
     public static ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
