@@ -1,14 +1,8 @@
 package com.mukundmadhav.springboot.springboot;
 
-import com.sun.rowset.internal.Row;
-import javafx.scene.control.Cell;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 public class ExcelCopy {
-    public static void excel(){
+    /*public static void excel() {
         Workbook sheets1 = ExcelUtil.loadBook("L:\\1.xls");
         Sheet sheetAt = sheets1.getSheetAt(0);
 //        sheetAt.getPhysicalNumberOfRows();
@@ -37,9 +31,9 @@ public class ExcelCopy {
         }
 
 
-
 //        ExcelWriter writer = ExcelUtil.getWriter("asdf.xlsx");
 //        writer.
 //        ExcelWriter write = writer.write(sheets);
 //        write.flush();
+    }*/
 }
