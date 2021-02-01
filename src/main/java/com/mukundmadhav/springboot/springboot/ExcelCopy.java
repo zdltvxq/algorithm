@@ -1,9 +1,25 @@
 package com.mukundmadhav.springboot.springboot;
 
 
+import cn.hutool.poi.excel.ExcelBase;
+import cn.hutool.poi.excel.ExcelFileUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 public class ExcelCopy {
-    /*public static void excel() {
-        Workbook sheets1 = ExcelUtil.loadBook("L:\\1.xls");
+    public static void excel() {
+        ExcelReader reader = ExcelUtil.getReader("L:\\1.xls");
+        Workbook sheets1 =reader.getWorkbook();
+//        Workbook sheets1 = ExcelUtil.loadBook("L:\\1.xls");
         Sheet sheetAt = sheets1.getSheetAt(0);
 //        sheetAt.getPhysicalNumberOfRows();
 //        sheetAt.createRow(1);
@@ -12,8 +28,8 @@ public class ExcelCopy {
         Cell cell1 = row1.getCell(3);
 
 
-        Workbook sheets2 = ExcelUtil.loadBook("L:\\2.xls");
-        Sheet sheetAt2 = sheets2.getSheetAt(0);
+        Workbook book2 = ExcelUtil.getReader("L:\\2.xls").getWorkbook();//ExcelUtil.loadBook("L:\\2.xls");
+        Sheet sheetAt2 = book2.getSheetAt(0);
 //        sheetAt.getPhysicalNumberOfRows();
 //        sheetAt.createRow(1);
 //        sheetAt.addMergedRegion(null);//.createDrawingPatriarch();
@@ -25,8 +41,9 @@ public class ExcelCopy {
 
 //        Workbook book = ExcelUtil.createBook("L:\\asdf1.xlsx");
         try {
-            ExcelUtil.writeBook(sheets2, new FileOutputStream(new File("L:\\3.xlsx")));
-        } catch (FileNotFoundException e) {
+//            ExcelUtil.writeBook(book2, new FileOutputStream(new File("L:\\3.xlsx")));
+            ExcelWriter writer = ExcelUtil.getWriter("L:\\3.xlsx");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -35,5 +52,5 @@ public class ExcelCopy {
 //        writer.
 //        ExcelWriter write = writer.write(sheets);
 //        write.flush();
-    }*/
+    }
 }
