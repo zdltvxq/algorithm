@@ -1,7 +1,24 @@
 package com.mukundmadhav.springboot.springboot;
 
 public class JianZhiOffer {
-    public static void main(String[] args) {
+    public String replaceSpace(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (' ' == chars[i]) {
+                //chars[i] = "%20";
+            }
+        }
+        for (char aChar : chars) {
+
+
+            if (' ' == aChar) {
+
+            }
+        }
+        return null;
+    }
+
+    public static void main1(String[] args) {
         int[] nums = {3, 1, 0, 4, 2};
         int repeatNumber = findRepeatNumber(nums);
         System.out.println(repeatNumber);
