@@ -1,11 +1,14 @@
 package com.mukundmadhav.springboot.springboot;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class JianZhiO {
     public int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0) return 0;
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        if (s.length() == 0) {
+            return 0;
+        }
+        Map<Character, Integer> map = new HashMap<>();
         int max = 0;
         int left = 0;
         for (int i = 0; i < s.length(); i++) {
