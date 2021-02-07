@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JianZhiO {
-    public int lengthOfLongestSubstring(String inputString) {
+    public static void main(String[] args) {
+        lengthOfLongestSubstring("abca");
+    }
+    public static int lengthOfLongestSubstring(String inputString) {
         if (inputString.length() == 0) {
             return 0;
         }
