@@ -1,12 +1,25 @@
 package com.mukundmadhav.springboot.springboot;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JianZhiO {
     public static void main(String[] args) {
-        lengthOfLongestSubstring("abca");
+        System.out.println(lengthOfLongestSubstring("abcabefgh"));
     }
+
+    public static void process1(char[] str, int index, List<String> ans, String path) {
+        if (index == str.length) {
+            ans.add(path);
+            return;
+        }
+        String no = path;
+        process1(str, index + 1, ans, no);
+        String yes = path + String.valueOf(str[index]);
+        process1(str, index + 1, ans, yes);
+    }
+
     public static int lengthOfLongestSubstring(String inputString) {
         if (inputString.length() == 0) {
             return 0;
@@ -14,13 +27,18 @@ public class JianZhiO {
         Map<Character, Integer> map = new HashMap<>();
         int max = 0;
         int left = 0;
+        String str = "";
         for (int i = 0; i < inputString.length(); i++) {
             if (map.containsKey(inputString.charAt(i))) {
                 left = Math.max(left, map.get(inputString.charAt(i)) + 1);
             }
             map.put(inputString.charAt(i), i);
+            if(i - left + 1 > max){
+                str = inputString.substring(left, i+1);
+            }
             max = Math.max(max, i - left + 1);
         }
+        System.out.println(str);
         return max;
 
     }
