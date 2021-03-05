@@ -19,6 +19,60 @@ import java.util.Set;
  * @date 2020/10/5
  */
 public class App {
+    public static void main(String[] args) {
+        ListNode root = new ListNode(1);
+        root.next = new ListNode(2);
+        root.next.next = new ListNode(3);
+        root.next.next.next = new ListNode(4);
+        root.next.next.next.next = new ListNode(5);
+        root.next.next.next.next.next = new ListNode(6);
+        ListNode listNode = reverseKGroup(root, 4);
+        System.out.println(listNode);
+    }
+
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        ListNode pre = dummy;
+        ListNode end = dummy;
+
+        while (end.next != null) {
+            for (int i = 0; i < k && end != null; i++) {
+                end = end.next;
+            }
+            if (end == null) break;
+            ListNode start = pre.next;
+            ListNode next = end.next;
+            end.next = null;
+            pre.next = reverse(start);
+            start.next = next;
+            pre = start;
+
+            end = pre;
+        }
+        return dummy.next;
+    }
+
+    private static ListNode reverse(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode rst = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+        return rst;
+//        ListNode pre = null;
+//        ListNode curr = head;
+//        while (curr != null) {
+//            ListNode next = curr.next;
+//            curr.next = pre;
+//            pre = curr;
+//            curr = next;
+//        }
+//        return pre;
+    }
+
     /**
      * 测试主函数
      */
@@ -306,23 +360,23 @@ public class App {
         return res;
     }
 
-//    public static void main(String[] args) {
-//        ListNode root = new ListNode(1);
-//        root.next = new ListNode(2);
-//        root.next.next = new ListNode(3);
-//        root.next.next.next = new ListNode(4);
-//        root.next.next.next.next = new ListNode(5);
-//        root.next.next.next.next.next = new ListNode(6);
-//        ListNode swap = 两两交换(root);
-//        System.out.println(swap);
-//    }
+    public static void main3(String[] args) {
+        ListNode root = new ListNode(1);
+        root.next = new ListNode(2);
+        root.next.next = new ListNode(3);
+        root.next.next.next = new ListNode(4);
+        root.next.next.next.next = new ListNode(5);
+        root.next.next.next.next.next = new ListNode(6);
+        ListNode swap = swaptwo(root);
+        System.out.println(swap.toString());
+    }
 
-    public static ListNode 两两交换(ListNode root) {
+    public static ListNode swaptwo(ListNode root) {
         if (root == null || root.next == null) {
             return root;
         }
         ListNode temp = root.next;
-        root.next = 两两交换(temp.next);
+        root.next = swaptwo(temp.next);
         temp.next = root;
         return temp;
     }
@@ -338,15 +392,17 @@ public class App {
         }
         return prev;
     }
+
     public ListNode reverseList2(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
-        ListNode p = reverseList(head.next);
+        ListNode rtn = reverseList2(head.next);
         head.next.next = head;
         head.next = null;
-        return p;
+        return rtn;
     }
+
     public static ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
