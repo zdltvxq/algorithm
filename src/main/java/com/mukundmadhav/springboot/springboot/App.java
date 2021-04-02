@@ -20,6 +20,15 @@ import java.util.Set;
  */
 public class App {
     public static void main(String[] args) {
+        Long l1 = new Long(1L);
+        Long l2 = new Long(1L);
+        Integer i1 = -129;
+        Integer i2 = -129;
+        Integer ii1 = new Integer(1);
+        int ii2 = 1;
+        System.out.println(ii1==ii2);
+    }
+    public static void main4(String[] args) {
         ListNode root = new ListNode(1);
         root.next = new ListNode(2);
         root.next.next = new ListNode(3);
