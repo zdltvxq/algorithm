@@ -3,34 +3,93 @@ package com.mukundmadhav.springboot.springboot;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 1 2 3
- * 8 9 4
- * 7 6 5
+ * 1 2 3 4
+ * 12 13 14 5
+ * 11 16 15 6
+ * 10 9 8 7
  * <p>
  * 00 01 02 12 22 21 20 10 11
  */
 public class JianZhiO {
-    public int[] spiralOrder4(int[][] matrix) {
-        if (matrix.length == 0) return new int[0];
-        int l = 0, r = matrix[0].length - 1, t = 0, b = matrix.length - 1, x = 0;
-        int[] res = new int[(r + 1) * (b + 1)];
-        while (true) {
-            for (int i = l; i <= r; i++) res[x++] = matrix[t][i]; // left to right.
-            if (++t > b) break;
-            for (int i = t; i <= b; i++) res[x++] = matrix[i][r]; // top to bottom.
-            if (l > --r) break;
-            for (int i = r; i >= l; i--) res[x++] = matrix[b][i]; // right to left.
-            if (t > --b) break;
-            for (int i = b; i >= t; i--) res[x++] = matrix[i][l]; // bottom to top.
-            if (++l > r) break;
+    public static void main4(String[] args) {
+        int[][] m = {{1, 2, 3,4}, {12,13,14,5}, {11,16,15,6}/*,{10,9,8,7}*/};
+        System.out.println(Arrays.toString(clockwise(m)));
+    }
+
+    public static int[] clockwise(int[][] m) {
+        if (m == null || m.length == 0) {
+            return new int[0];
         }
-        return res;
+        int left = 0, right = m[0].length-1, top = 0, idx = 0, rst[] = new int[m.length * m[0].length], bottom = m.length - 1;
+        while (true) {
+            for (int i = left; i <= right; i++) {
+                rst[idx++] = m[top][i];
+            }
+            if (++top > bottom) {
+                break;
+            }
+            for (int i = top; i <= bottom; i++) {
+                rst[idx++] = m[i][right];
+            }
+            if (left > --right) {
+                break;
+            }
+            for (int i = right; i >= left; i--) {
+                rst[idx++] = m[bottom][i];
+            }
+            if (top > --bottom) {
+                break;
+            }
+            for (int i = bottom; i >= top; i--) {
+                rst[idx++] = m[i][left];
+            }
+            if (++left > right) {
+                break;
+            }
+        }
+        return rst;
+    }
+
+    public int[] spiralOrder4(int[][] matrix) {
+        if (matrix.length == 0) {
+            return new int[0];
+        }
+        int l = 0, r = matrix[0].length - 1, top = 0, bottom = matrix.length - 1, x = 0;
+        int[] result = new int[(r + 1) * (bottom + 1)];
+        while (true) {
+            for (int i = l; i <= r; i++) {
+                result[x++] = matrix[top][i];
+            } // left to right.
+            if (++top > bottom) {
+                break;
+            }
+            for (int i = top; i <= bottom; i++) {
+                result[x++] = matrix[i][r];
+            } // top to bottom.
+            if (l > --r) {
+                break;
+            }
+            for (int i = r; i >= l; i--) {
+                result[x++] = matrix[bottom][i];
+            } // right to left.
+            if (top > --bottom) {
+                break;
+            }
+            for (int i = bottom; i >= top; i--) {
+                result[x++] = matrix[i][l];
+            } // bottom to top.
+            if (++l > r) {
+                break;
+            }
+        }
+        return result;
     }
 
 
@@ -125,19 +184,6 @@ public class JianZhiO {
         return order;
     }
 
-    public static void printSquare(int[][] sq) {
-        for (int i = 0; i < sq.length; i++) {
-            for (int j = 0; j < sq[i].length; j++) {
-
-
-                System.out.println(sq[i][j]);
-
-            }
-
-        }
-    }
-
-
     public static String reorder(String in) {
         if (StringUtils.isEmpty(in)) {
             return in;
@@ -193,48 +239,57 @@ public class JianZhiO {
         System.out.println(reorder("abbbccdef"));
     }
 
-    public static void main2(String[] args) {
+    public static void main(String[] args) {
         JianZhiO j = new JianZhiO();
         j.test();
     }
 
-    public void test() {
-        int[] a = {1, 2, 3, 4, 5, 6, 7};
-        int[] b = {3, 2, 4, 1, 6, 5, 7};
-        TreeNode treeNode = buildTree(a, b);
-        System.out.println(treeNode);
-    }
-
+    /**
+     *            1
+     *      2          3
+     *   4    5     6     7
+     *  8 9 10 11 12 13 14 15
+     */
     int[] preorder;
     HashMap<Integer, Integer> inOrderMap = new HashMap<>();
 
-    // 前序遍历 preorder: 根 -- 左 -- 右   第一个肯定是根节点
-    // 中序遍历 inorder: 左 -- 根 -- 右
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        this.preorder = preorder;
-        for (int i = 0; i < inorder.length; i++) {
-            inOrderMap.put(inorder[i], i);
+    public void test() {
+        int[] a = {1,2,4,8,9,5,10,11,3,6,12,13,7,14,15};
+        int[] b = {8,4,9,2,10,5,11,1,12,6,13,3,14,7,15};
+
+        // 前序遍历 preorder: 根 -- 左 -- 右   第一个肯定是根节点
+        // 中序遍历 inorder: 左 -- 根 -- 右
+        this.preorder = a;
+        for (int i = 0; i < b.length; i++) {
+            inOrderMap.put(b[i], i);
         }
-        return rebuild(0, 0, inorder.length - 1);
+        TreeNode treeNode =  this.rebuild(0, 0, b.length - 1);
+        System.out.println(treeNode);
     }
 
-    // pre_root_index : 根节点 在 前序遍历中的下标
-    // in_left_index: 该节点在中序遍历中的左边界
-    // in_right_index: 该节点在中序遍历中的右边界
+    // pre_root_index : 根节点 在 前序遍历中的下标    in_left_index: 该节点在中序遍历中的左边界   in_right_index: 该节点在中序遍历中的右边界
     public TreeNode rebuild(int pre_root_index, int in_left_index, int in_right_index) {
         if (in_left_index > in_right_index) return null;
+
+        int currentRoot = preorder[pre_root_index];
+
         // 根节点在中序遍历中的位置：in_root_index
-        int in_root_index = inOrderMap.get(preorder[pre_root_index]);
-        // 创建一个根节点
-        TreeNode node = new TreeNode(preorder[pre_root_index]);
+        int in_root_index = inOrderMap.get(currentRoot);
+
+        // 创建一个根节点(每次递归进来都新创建一个当前根吗？)
+        TreeNode node = new TreeNode(currentRoot);
+
         // 寻找node的左节点:
         // 在前序遍历中的位置就是  根节点的下标 + 1（右边一个单位）
         // 在中序遍历中的位置就是： 1. 左边界不变，2. 右边界就是根节点的左边一个单位 in_root_index - 1
+        // 左子树的根，左子树的左边界，左子树的右边界
         node.left = rebuild(pre_root_index + 1, in_left_index, in_root_index - 1);
+
         // 寻找node的右节点:
-        // 在前序遍历中的位置就是  根节点的下标 + 左子树长度 + 1
+        // 右子树根 在前序遍历中的位置就是  根节点的下标 + 左子树长度 + 1
         // 在中序遍历中的位置就是： 1. 左边界在根节点的右边一个单位  in_root_index + 1, 2. 右边界不变
         node.right = rebuild(pre_root_index + in_root_index - in_left_index + 1, in_root_index + 1, in_right_index);
+
         return node;
     }
 
