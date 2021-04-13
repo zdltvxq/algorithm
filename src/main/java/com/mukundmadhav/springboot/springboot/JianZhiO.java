@@ -19,35 +19,37 @@ import java.util.Map;
  */
 public class JianZhiO {
     public static void main(String[] args) {
-        JianZhiO j=new JianZhiO();
+        JianZhiO j = new JianZhiO();
         j.toRebuild();
     }
-    int [] preArray = {1,2,4,8,9,5,10,11,3,6,12,13,7,14,15};
-    int[] midArray={8,4,9,2,10,5,11,1,12,6,13,3,14,7,15};
+
+    int[] preArray = {1, 2, 4, 8, 9, 5, 10, 11, 3, 6, 12, 13, 7, 14, 15};
+    int[] midArray = {8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 13, 3, 14, 7, 15};
     Map<Integer, Integer> midMap = new HashMap<>();
-    public void toRebuild(){
+
+    public void toRebuild() {
         for (int i = 0; i < midArray.length; i++) {
-            midMap.put(midArray[i],i);
+            midMap.put(midArray[i], i);
         }
 
-        TreeNode tn = this.building(0,0,midArray.length-1);
+        TreeNode tn = this.building(0, 0, midArray.length - 1);
         System.out.println(tn);
     }
 
     private TreeNode building(int preRootIdx, int midLeftIdx, int midRightIdx) {
-        if(midLeftIdx>midRightIdx) {
+        if (midLeftIdx > midRightIdx) {
             return null;
         }
         int midRootIdx = midMap.get(preArray[preRootIdx]);
         TreeNode rt = new TreeNode(preArray[preRootIdx]);
-        rt.left=building(preRootIdx+1,midLeftIdx,midRootIdx-1);
-        rt.right=building(preRootIdx+midRootIdx-midLeftIdx+1,midRootIdx+1,midRightIdx);
+        rt.left = building(preRootIdx + 1, midLeftIdx, midRootIdx - 1);
+        rt.right = building(preRootIdx + midRootIdx - midLeftIdx + 1, midRootIdx + 1, midRightIdx);
         return rt;
     }
 
 
     public static void main4(String[] args) {
-        int[][] m = {{1, 2, 3,4}, {12,13,14,5}, {11,16,15,6}/*,{10,9,8,7}*/};
+        int[][] m = {{1, 2, 3, 4}, {12, 13, 14, 5}, {11, 16, 15, 6}/*,{10,9,8,7}*/};
         System.out.println(Arrays.toString(clockwise(m)));
     }
 
@@ -55,7 +57,7 @@ public class JianZhiO {
         if (m == null || m.length == 0) {
             return new int[0];
         }
-        int left = 0, right = m[0].length-1, top = 0, idx = 0, rst[] = new int[m.length * m[0].length], bottom = m.length - 1;
+        int left = 0, right = m[0].length - 1, top = 0, idx = 0, rst[] = new int[m.length * m[0].length], bottom = m.length - 1;
         while (true) {
             for (int i = left; i <= right; i++) {
                 rst[idx++] = m[top][i];
@@ -273,17 +275,17 @@ public class JianZhiO {
     }
 
     /**
-     *            1
-     *      2          3
-     *   4    5     6     7
-     *  8 9 10 11 12 13 14 15
+     * 1
+     * 2          3
+     * 4    5     6     7
+     * 8 9 10 11 12 13 14 15
      */
     int[] preorder;
     HashMap<Integer, Integer> inOrderMap = new HashMap<>();
 
     public void test() {
-        int[] a = {1,2,4,8,9,5,10,11,3,6,12,13,7,14,15};
-        int[] b = {8,4,9,2,10,5,11,1,12,6,13,3,14,7,15};
+        int[] a = {1, 2, 4, 8, 9, 5, 10, 11, 3, 6, 12, 13, 7, 14, 15};
+        int[] b = {8, 4, 9, 2, 10, 5, 11, 1, 12, 6, 13, 3, 14, 7, 15};
 
         // 前序遍历 preorder: 根 -- 左 -- 右   第一个肯定是根节点
         // 中序遍历 inorder: 左 -- 根 -- 右
@@ -291,7 +293,7 @@ public class JianZhiO {
         for (int i = 0; i < b.length; i++) {
             inOrderMap.put(b[i], i);
         }
-        TreeNode treeNode =  this.rebuild(0, 0, b.length - 1);
+        TreeNode treeNode = this.rebuild(0, 0, b.length - 1);
         System.out.println(treeNode);
     }
 
