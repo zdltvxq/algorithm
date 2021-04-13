@@ -18,6 +18,34 @@ import java.util.Map;
  * 00 01 02 12 22 21 20 10 11
  */
 public class JianZhiO {
+    public static void main(String[] args) {
+        JianZhiO j=new JianZhiO();
+        j.toRebuild();
+    }
+    int [] preArray = {1,2,4,8,9,5,10,11,3,6,12,13,7,14,15};
+    int[] midArray={8,4,9,2,10,5,11,1,12,6,13,3,14,7,15};
+    Map<Integer, Integer> midMap = new HashMap<>();
+    public void toRebuild(){
+        for (int i = 0; i < midArray.length; i++) {
+            midMap.put(midArray[i],i);
+        }
+
+        TreeNode tn = this.building(0,0,midArray.length-1);
+        System.out.println(tn);
+    }
+
+    private TreeNode building(int preRootIdx, int midLeftIdx, int midRightIdx) {
+        if(midLeftIdx>midRightIdx) {
+            return null;
+        }
+        int midRootIdx = midMap.get(preArray[preRootIdx]);
+        TreeNode rt = new TreeNode(preArray[preRootIdx]);
+        rt.left=building(preRootIdx+1,midLeftIdx,midRootIdx-1);
+        rt.right=building(preRootIdx+midRootIdx-midLeftIdx+1,midRootIdx+1,midRightIdx);
+        return rt;
+    }
+
+
     public static void main4(String[] args) {
         int[][] m = {{1, 2, 3,4}, {12,13,14,5}, {11,16,15,6}/*,{10,9,8,7}*/};
         System.out.println(Arrays.toString(clockwise(m)));
@@ -239,7 +267,7 @@ public class JianZhiO {
         System.out.println(reorder("abbbccdef"));
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         JianZhiO j = new JianZhiO();
         j.test();
     }
@@ -286,7 +314,7 @@ public class JianZhiO {
         node.left = rebuild(pre_root_index + 1, in_left_index, in_root_index - 1);
 
         // 寻找node的右节点:
-        // 右子树根 在前序遍历中的位置就是  根节点的下标 + 左子树长度 + 1
+        // 右子树根 在前序遍历中的位置就是  根节点的下标 + 左子树长度 + 1，右子树的根
         // 在中序遍历中的位置就是： 1. 左边界在根节点的右边一个单位  in_root_index + 1, 2. 右边界不变
         node.right = rebuild(pre_root_index + in_root_index - in_left_index + 1, in_root_index + 1, in_right_index);
 
